@@ -1,10 +1,12 @@
-import {compare, hash} from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 export const makeSecurePassword =  async (userPassword) => {
-    const hashedPassword = await hash(userPassword , 10);
+    const hashedPassword = await bcrypt.hash(userPassword , 10);
     return hashedPassword;
 }
 
 export const checkAndComparePassword = async (inputPassword , storedPassword) => {
-    return await compare(inputPassword , storedPassword)
+    
+    const result = await bcrypt.compare(inputPassword , storedPassword);
+    return result;
 }

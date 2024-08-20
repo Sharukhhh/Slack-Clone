@@ -12,7 +12,7 @@ const channel = new Schema({
         ref: 'workspaces'
     }
 
-}, {timestamps: true})
+}, {timestamps: true});
 
 
 const channelModel = mongoose.model('channels' , channel);

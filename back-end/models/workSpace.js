@@ -11,12 +11,17 @@ const workSpace = new Schema({
     creator: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users'
-    }, 
+    },   
 
     members: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users'
     }],
+
+    channels: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'channels'
+    }]
 
 }, {timestamps: true});
 
