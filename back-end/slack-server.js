@@ -13,7 +13,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.use('/api/user/auth' , userRoutes);
 
-app.use(errorHanlder())
+app.use(errorHanlder)
 
 connectToDb();
 
