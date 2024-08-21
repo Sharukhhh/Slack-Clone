@@ -53,10 +53,15 @@ export const adminLogin = async (req, res , next) => {
         const validatePassword = await checkAndComparePassword(password , existingAdmin.password);
         if(!validatePassword) return res.status(400).json({error: 'Password does not match'});
 
+        const adminData = {
+            id: existingAdmin?._id,
+            role: existingAdmin?.role
+        }
+
         const token = await generateToken(existingAdmin?._id);
 
         return res.setHeader('Authorization' , `Bearer ${token}`)
-        .status(200).json({message: 'success'});
+        .status(200).json({message: 'success' , adminData});
 
     } catch (error) {
         next(error);

@@ -20,6 +20,7 @@ const userSchema = new Schema({
 
     status: {
         type: String,
+        enum: ['online' , 'offline' , 'away' , 'avaialable'],
     },
 
     profileImage: {

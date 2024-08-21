@@ -6,6 +6,10 @@ const channel = new Schema({
         type: String,
         required: true
     },
+
+    description: {
+        type: String
+    },
  
     workSpace: {
         type: mongoose.Schema.Types.ObjectId,

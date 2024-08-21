@@ -1,5 +1,6 @@
 import Workspace from '../../models/workSpace.js';
 import Channel from '../../models/channel.js'
+import Notification from '../../models/notifications.js'
 
 
 /*
@@ -9,7 +10,7 @@ import Channel from '../../models/channel.js'
 */
 export const createWorkSpaceandDefaultChannel = async (req, res, next) => {
     try {
-        const {title , channelName } = req.body;
+        const {title , channelName , description} = req.body;
 
         if(!title || !channelName) return res.status(400).json({error: 'Invalid Entries'});
 
@@ -21,6 +22,7 @@ export const createWorkSpaceandDefaultChannel = async (req, res, next) => {
         
         const channel = new Channel({
             channel_Title: channelName,
+            description,
             workSpace: workSpace._id
         });
 
@@ -55,6 +57,7 @@ export const addNewChannelToWorkSpace = async (req, res, next) => {
 
         const channel = new Channel({
             channel_Title: channelName,
+            description,
             workSpace: workSpaceId
         });
         await channel.save();
@@ -68,3 +71,31 @@ export const addNewChannelToWorkSpace = async (req, res, next) => {
         next(error);
     }
 }
+
+
+/*
+    info: To add users to a workspace
+    route: /api/workspace/add_user
+    method: PATCH
+*/
+export const addUsersToWorkspace = async (req, res, next) => {
+    try {
+        const userIdArray = req.userIds;
+        const workSpaceOwnerId = req.params.id;
+
+        const workSpace = await Workspace.findOne({creator: workSpaceOwnerId});
+        if(!workSpace) return res.status(404).json({error: 'Workspace not found'});
+        
+        for(let ids of userIdArray) {
+            workSpace.members.push(ids);
+        }
+        await workSpace.save();
+
+        return res.status(200).json({message: 'Added Successfully'});
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+

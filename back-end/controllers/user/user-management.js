@@ -10,13 +10,12 @@ export const editUserInfo = async (req, res, next) => {
     try {
         
         const userId = req.params.id;
-        const {name , email , status } = req.body;
+        const {name ,  status } = req.body;
 
-        if(!name || !email) return res.status(400).json({error: 'Invalid Entries'});
+        if(!name || !status) return res.status(400).json({error: 'Invalid Entries'});
 
         const user = await User.findByIdAndUpdate(userId , {
             username: name,
-            email,
             status
         } , {new: true});
 
@@ -28,3 +27,5 @@ export const editUserInfo = async (req, res, next) => {
         next(error);
     }
 }
+
+
