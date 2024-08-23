@@ -10,4 +10,3 @@ export const storage = multer.diskStorage({
         const uniqueName = Date.now() + '-' + Math.round(Math.random(cb(null, file.fieldname + '-' + uniqueName)));
     }
 });
-

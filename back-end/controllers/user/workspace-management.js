@@ -1,6 +1,5 @@
 import Workspace from '../../models/workSpace.js';
 import Channel from '../../models/channel.js'
-import Notification from '../../models/notifications.js'
 
 
 /*
@@ -12,10 +11,13 @@ export const createWorkSpaceandDefaultChannel = async (req, res, next) => {
     try {
         const {title , channelName , description} = req.body;
 
+        const loggedUser = req.user;
+
         if(!title || !channelName) return res.status(400).json({error: 'Invalid Entries'});
 
         const workSpace = new Workspace({
-            workSpace_Name: title
+            workSpace_Name: title,
+            creator: loggedUser._id
         });
 
         await workSpace.save();
@@ -23,7 +25,7 @@ export const createWorkSpaceandDefaultChannel = async (req, res, next) => {
         const channel = new Channel({
             channel_Title: channelName,
             description,
-            workSpace: workSpace._id
+            workSpace: workSpace._id,
         });
 
         await channel.save();
@@ -57,7 +59,6 @@ export const addNewChannelToWorkSpace = async (req, res, next) => {
 
         const channel = new Channel({
             channel_Title: channelName,
-            description,
             workSpace: workSpaceId
         });
         await channel.save();
@@ -80,10 +81,9 @@ export const addNewChannelToWorkSpace = async (req, res, next) => {
 */
 export const addUsersToWorkspace = async (req, res, next) => {
     try {
-        const userIdArray = req.userIds;
-        const workSpaceOwnerId = req.params.id;
+        const userIdArray = req.body.userIds;
 
-        const workSpace = await Workspace.findOne({creator: workSpaceOwnerId});
+        const workSpace = await Workspace.findOne({creator: req.user._id});
         if(!workSpace) return res.status(404).json({error: 'Workspace not found'});
         
         for(let ids of userIdArray) {

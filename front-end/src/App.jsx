@@ -1,11 +1,13 @@
+import {Routes , Route} from 'react-router-dom'
+import Auth from './pages/access/Auth'
 
 function App() {
 
   return (
     <>
-      <div>
-        <h2>Welcome to Slack clone</h2>
-      </div>
+      <Routes>
+        <Route path='/' element={<Auth/>}/>
+      </Routes>
     </>
   )
 }
