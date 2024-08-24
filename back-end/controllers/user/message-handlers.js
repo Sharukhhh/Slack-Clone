@@ -1,4 +1,3 @@
-import Channel from '../../models/channel.js';
 import Message from '../../models/messages.js';
 
 
@@ -69,11 +68,6 @@ export const searchOnMessages = async (req, res, next) => {
         
         const channelId = req.params.id;
         const searchKey = req.query.word;
-
-        const data = await Message.findOne({channel: channelId , $text : {
-            $search: searchKey
-        }})
-        return res.status(200).json({data})
         
 
     } catch (error) {

@@ -6,8 +6,8 @@ import { IoSearchOutline , IoTimeOutline } from "react-icons/io5";
 const WorkspaceNav = ({title}) => {
     return (
         <>
-            <div className="bg-purple-900 p-2 flex flex-row items-center justify-between">
-                <div className="flex items-center justify-center mx-auto space-x-6">
+            <nav className="bg-purple-900 p-2 flex flex-row items-center justify-between">
+                <div className="flex items-center justify-center space-x-6 md:mx-auto">
                     <FaArrowLeft color="white"/>
                     <FaArrowRight color="white"/>
                     <IoTimeOutline color="white"/>
@@ -17,11 +17,11 @@ const WorkspaceNav = ({title}) => {
                     </div>
                     <HiOutlineQuestionMarkCircle color="white"/>
                 </div>
-                {/* <div className="flex me-4 items-center">
+                <div className="flex me-4 items-center">
                     <img src="https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png" 
                     alt="" className="w-8 h-8 rounded-md sm:w-10 sm:h-10" />
-                </div> */}
-            </div>
+                </div>
+            </nav>
         </>
     )
 }
