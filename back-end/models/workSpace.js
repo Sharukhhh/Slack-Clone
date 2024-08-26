@@ -10,7 +10,8 @@ const workSpace = new Schema({
 
     creator: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'users',
+        required: true
     },   
 
     members: [{

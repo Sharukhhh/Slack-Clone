@@ -1,6 +1,7 @@
 import {createApi , fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 
 
+
 export const userAuthApi = createApi ( {
     reducerPath: 'slack_userAuth_service',
     baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:3000/api/user/auth'}),

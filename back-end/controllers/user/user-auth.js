@@ -4,7 +4,6 @@ import { generateToken } from "../../utils/generateToken.js";
 import { checkForExisingUser } from "../../utils/helpers.js";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { useRegisterUserMutation } from "../../../front-end/src/redux/services/userAuthService.js";
 dotenv.config()
 
 
@@ -25,7 +24,7 @@ export const createUser = async (req, res , next) => {
 
         const hashedPassword = await makeSecurePassword(password)
 
-        const user = await User.create({
+        await User.create({
             username , email , password: hashedPassword
         });
 
@@ -63,8 +62,7 @@ export const loginUser = async (req, res , next) => {
             id: existingUser._id
         }
         
-        return res.setHeader('Authorization' , `Bearer ${token}`)
-        .status(200).json({message: 'login successfull', userData });
+        return res.status(200).json({message: 'login successfull', userData , token });
 
     } catch (error) {
         next(error)
@@ -126,10 +124,10 @@ export const googleLogin = async (req, res , next) => {
             name: existingUser?.username
         };
 
-        const token = await generateToken(userData?._id);
+        const token = await generateToken(existingUser?._id);
 
         return res.setHeader('Authorization' , `Bearer ${token}`)
-        .status(200).json({message: 'login successfull', userData });
+        .status(200).json({message: 'login successfull', userData , token });
         
     } catch (error) {
         next(error);

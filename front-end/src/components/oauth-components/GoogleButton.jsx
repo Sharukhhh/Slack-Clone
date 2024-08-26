@@ -26,7 +26,9 @@ const GoogleButton = ({isSignin}) => {
                     if(isSignin) {
                         res = await gooogleLogin(response).unwrap();
                         dispatch(setUserCred(res.userData))
+                        localStorage.setItem('slackUserToken' , res.token)
                         successAlert(res.message)
+                        navigate('/home')
                         
                     } else {
                         res = await googleSignup(response).unwrap();
@@ -34,7 +36,7 @@ const GoogleButton = ({isSignin}) => {
                         navigate('/signin')
                     }
                 } catch (error) {
-                    
+                    errorAlert(error?.data?.error || error?.error);
                 }
             }}
 

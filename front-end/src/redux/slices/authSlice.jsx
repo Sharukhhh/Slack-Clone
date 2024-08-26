@@ -14,6 +14,7 @@ const authSlice = createSlice({
         },
 
         removeCred: (state) => {
+            localStorage.removeItem('slackUserToken');
             state.userCreds = null;
         }
     }
