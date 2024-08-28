@@ -18,7 +18,7 @@ const Sidebar = ({data}) => {
 
                 <div className="w-full flex flex-col p-2 ">
                     <div className="flex justify-between p-3">
-                        <span className="font-bold md:text-xl text-white">{data?.workSpace_Name}</span>
+                        <span className="font-bold md:text-xl text-white truncate">{data?.workSpace_Name}</span>
                     </div>
 
                     {/* Horizontal line below title */}
@@ -31,7 +31,7 @@ const Sidebar = ({data}) => {
                     </div>
 
                     <div className="overflow-y-auto">
-                        <Channellist channels={data?.channels} />
+                        <Channellist workspace={data} />
                         <DMlist members={data?.members} />
                     </div>
                 </div>

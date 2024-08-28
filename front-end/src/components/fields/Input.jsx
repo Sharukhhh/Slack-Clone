@@ -1,25 +1,37 @@
+import React from "react";
 import { useGetAllUsersQuery } from "../../redux/services/userServices";
 
-const Input = ({label , isSelect, ...props}) => {
+const Input = ({label , isSelect, selectTitle, isSelectAndUser, ...props}) => {
     const {data} = useGetAllUsersQuery();
     return (
         <div>  
             <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor={'label'}>{label}</label>
             {isSelect ? (
                 <select name="" 
-                {...props}
+                {...props} 
                 className="w-full p-2.5 border border-purple-200 rounded focus:outline-none focus:ring focus:border-purple-500 bg-white"
                 >
-                    <option value="">Select User</option>
-                    {data?.users?.map((user) => (
-                        <option key={user?._id} value={JSON.stringify({id: user?._id , email: user?.email})}>
-                            {user?.email}
-                        </option>
-                    ))}
+                    <option value="">{selectTitle}</option>
+                    {!isSelectAndUser ? (
+                        <React.Fragment>
+                            <option value="In a meeting">In a meeting</option>
+                            <option value="Away">Away</option>
+                            <option value="Busy">Busy</option>
+                            <option value="Available">Available</option>
+                        </React.Fragment>
+                    ) : (
+                        <React.Fragment>
+                        {data?.users?.map((user) => (
+                            <option key={user?._id} value={JSON.stringify({id: user?._id , email: user?.email})}>
+                                {user?.email}
+                            </option>
+                        ))}
+                        </React.Fragment>
+                    )}
                 </select>
             ) : (
                 <input {...props}
-                required
+                required 
                 className="w-full px-3 py-2 border border-purple-200 rounded focus:outline-none focus:ring focus:border-purple-500"/>
             )}
         </div>

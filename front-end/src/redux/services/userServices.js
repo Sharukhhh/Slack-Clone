@@ -14,7 +14,7 @@ export const userServicesApi = createApi({
 
     reducerPath: 'slack_userServices',
     baseQuery,
-    tagTypes: ['workspaces'],
+    tagTypes: ['workspaces' , 'user'],
 
     endpoints: (builder) => ({
         createWorkspace: builder.mutation({
@@ -45,7 +45,25 @@ export const userServicesApi = createApi({
             query: () => ({
                 url: '/user/fetch/all',
                 method: 'GET'
-            })
+            }),
+            providesTags: ['user']
+        }),
+
+        getSingleUser: builder.query({
+            query: () => ({
+                url: `/user/fetch/single`,
+                method: 'GET'
+            }),
+            providesTags: ['user']
+        }),
+
+        updateUser: builder.mutation({
+            query: (body) => ({
+                url: '/user/edit/',
+                method: 'PUT',
+                body
+            }),
+            invalidatesTags: ['user']
         })
 
     })
@@ -53,6 +71,6 @@ export const userServicesApi = createApi({
 
 
 export const {useCreateWorkspaceMutation ,  useFetchAllWorkSpaceQuery, useGetWorkspaceRelatedToIDQuery ,
-    useGetAllUsersQuery
+    useGetAllUsersQuery, useGetSingleUserQuery, useUpdateUserMutation
 
 } = userServicesApi;

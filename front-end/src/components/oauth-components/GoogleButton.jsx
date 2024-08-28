@@ -17,7 +17,7 @@ const GoogleButton = ({isSignin}) => {
             type="standard"
             theme="filled_blue"
             size="medium"
-            text="continue_with"
+            text={isSignin ? 'signin_with' : 'signup_with'}
             logo_alignment="center"
             shape="square"
             onSuccess={async (response) => {

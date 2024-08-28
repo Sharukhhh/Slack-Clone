@@ -23,6 +23,9 @@ export const createWorkSpaceandDefaultChannel = async (req, res, next) => {
         });
 
         await workSpace.save();
+
+        workSpace.members.push(loggedUser?._id);
+        await workSpace.save();
         
         const channel = new Channel({
             channel_Title: channelName,
@@ -110,7 +113,12 @@ export const fetchUsersWorkSpaces = async (req, res, next) => {
     try {
         const loggedUser = req.user;
 
-        const workSpaces = await Workspace.find({creator: loggedUser?._id}).sort({createdAt: -1});
+        const workSpaces = await Workspace.find({
+            $or: [
+                {creator: loggedUser?._id},
+                {members: loggedUser?._id}
+            ]
+        }).populate('creator').populate('members').sort({createdAt: -1}).select('-channels');
         if(!workSpaces) return res.status(404).json({error: 'Workspaces not found'});
 
         return res.status(200).json({message: 'success' , workSpaces});

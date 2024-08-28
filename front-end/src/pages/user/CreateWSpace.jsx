@@ -2,17 +2,17 @@ import Input from "../../components/fields/Input";
 import FormWrapper from "../../components/wrappers/FormWrapper";
 import { useDetailsForm } from "../../hooks/workspaceForm";
 import { IoReturnUpBack } from "react-icons/io5";
-import {Link} from 'react-router-dom'
-import { useCreateWorkspaceMutation } from "../../redux/services/userServices";
+import {Link, useParams} from 'react-router-dom'
+import { useCreateWorkspaceMutation, useGetWorkspaceRelatedToIDQuery } from "../../redux/services/userServices";
 import { errorAlert, infoAlert, successAlert } from "../../utils/alerts";
 import SelectedDisplayCard from "../../components/cards/SelectedDisplayCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CreateWspace = () => {
+
     const {workSpaceDetails , changeData , addSelectedUser , removeSelectedUser , resetData} = useDetailsForm();
     const [createWorkspace , {isLoading}] = useCreateWorkspaceMutation()
     const [selectedUser , setSelectedUser] = useState('');
-    
 
     const handleAddingUser = () => {
         if(selectedUser) {
@@ -58,6 +58,7 @@ const CreateWspace = () => {
                     Fill the requirements below to create your workspace
                 </p>
 
+                {/* Form to create Workspace */}
                 <form onSubmit={handleFormSubmission} className='flex space-y-8 flex-col'>
                     <Input
                         label={'Name your Workspace'}
@@ -65,6 +66,7 @@ const CreateWspace = () => {
                         name={'workSpaceName'}
                         value={workSpaceDetails.workSpaceName}
                         onChange={changeData}
+                        maxLength={30}
                     />
                     <textarea 
                         name="description" required
@@ -77,6 +79,8 @@ const CreateWspace = () => {
                         <div className="w-full md:w-1/2">
                             <Input
                                 isSelect={true}
+                                isSelectAndUser={true}
+                                selectTitle={'Select User'}
                                 label={'Select users to add to your workspace'}
                                 placeholder={'Select Users'}
                                 name={'users'}
@@ -97,6 +101,7 @@ const CreateWspace = () => {
                         name={'channelName'}
                         value={workSpaceDetails.channelName}
                         onChange={changeData}
+                        maxLength={30}
                     />
 
                     <button type="submit" className="w-fit py-2 px-4 text-white bg-purple-900 rounded hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">

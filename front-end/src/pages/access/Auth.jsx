@@ -124,9 +124,9 @@ const Auth = ({isSignin}) => {
                             
                     <div className="space-y-4 flex flex-col justify-center items-center">
                         <GoogleButton isSignin={isSignin} />
-                        {isSignin && (
+                        {/* {isSignin && ( */}
                             <GithubButton  />
-                        )}
+                        {/* )} */}
                     </div>
 
 

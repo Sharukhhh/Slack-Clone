@@ -19,6 +19,7 @@ function App() {
           {/* <Route path='/github/callback' element={<GithubCallBack/>}/> */}
           <Route path='/home' element={<Home/>}/>
           <Route path='/workspace/add' element={<CreateWspace/>}/>
+          <Route path='/workspace/add/:workSpaceId' element={<CreateWspace/>}/>
           <Route path='/profile' element={<Profile/>}/>
         </Route>
       </Routes>

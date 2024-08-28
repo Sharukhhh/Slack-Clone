@@ -20,9 +20,9 @@ const Workspace = () => {
                 <Sidebar data={data?.workSpace} />
 
                 {/* Chat UI */}
-                <div className="bg-white p-3 w-3/4 h-full flex flex-col  space-y-6">
+                <div className="bg-white p-3 w-3/4 h-full flex flex-col  space-y-5">
                     <div className="flex p-3 justify-between items-center">
-                        <UserInfoset isFirst={true}  />
+                        <UserInfoset users={data?.workSpace?.members}  isFirst={true}  />
                         <HiOutlineDocumentPlus size={22}/>
                     </div>
                     <p className="text-slate-400 font-semibold cursor-pointer">+ Add a Bookmark</p>

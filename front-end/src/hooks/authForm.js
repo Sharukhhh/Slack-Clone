@@ -6,7 +6,8 @@ export const useAuthForm = () => {
     const [endUserData , setEndUserData] = useState({
         username: '',
         email: '',
-        password: ''
+        password: '',
+        status: ''
     });
 
     const changeData = (e) => {
@@ -17,7 +18,11 @@ export const useAuthForm = () => {
         }))
     };
 
+    const setInitialData = (initialData) => {
+        setEndUserData(initialData);
+    }
+
     return {
-        endUserData , changeData
+        endUserData , changeData , setInitialData
     }
 }

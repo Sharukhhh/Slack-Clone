@@ -16,9 +16,15 @@ const authSlice = createSlice({
         removeCred: (state) => {
             localStorage.removeItem('slackUserToken');
             state.userCreds = null;
+        },
+
+        updateStateUserName: (state , action) => {
+            if(state.userCreds && state.userCreds.name) {
+                state.userCreds.name = action.payload;
+            }
         }
     }
 });
 
-export const {setUserCred , removeCred} = authSlice.actions
+export const {setUserCred , removeCred , updateStateUserName} = authSlice.actions
 export default authSlice.reducer;
