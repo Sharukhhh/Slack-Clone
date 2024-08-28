@@ -17,7 +17,6 @@ const workSpace = new Schema({
     members: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
-        validate: [arrayLimit]
     }],
 
     channels: [{
@@ -27,9 +26,6 @@ const workSpace = new Schema({
 
 }, {timestamps: true});
 
-function arrayLimit(num) {
-    return num >= 20;
-}
 
 const workSpaceModel = model('workspaces' , workSpace);
 

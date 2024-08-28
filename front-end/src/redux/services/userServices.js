@@ -10,7 +10,7 @@ const baseQuery = fetchBaseQuery({
     }
 })
 
-const userServicesApi = createApi({
+export const userServicesApi = createApi({
 
     reducerPath: 'slack_userServices',
     baseQuery,
@@ -26,15 +26,33 @@ const userServicesApi = createApi({
             invalidatesTags: ['workspaces']
         }),
 
-        fetchWorkSpace: builder.query({
+        fetchAllWorkSpace: builder.query({
             query: () => ({
-                url: '/workspace/fetch',
-                method: 'POST',
+                url: '/workspace/fetch/all',
+                method: 'GET',
             }),
             providesTags: ['workspaces']
+        }),
+
+        getWorkspaceRelatedToID: builder.query({
+            query: (workSpaceId) => ({
+                url: `/workspace/fetch/${workSpaceId}`,
+                method: 'GET'
+            })
+        }),
+
+        getAllUsers: builder.query({
+            query: () => ({
+                url: '/user/fetch/all',
+                method: 'GET'
+            })
         })
+
     })
 });
 
 
-export const {useCreateWorkspaceMutation ,  useFetchWorkSpaceQuery } = userServicesApi;
+export const {useCreateWorkspaceMutation ,  useFetchAllWorkSpaceQuery, useGetWorkspaceRelatedToIDQuery ,
+    useGetAllUsersQuery
+
+} = userServicesApi;

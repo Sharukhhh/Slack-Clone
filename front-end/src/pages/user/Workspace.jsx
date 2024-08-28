@@ -1,18 +1,23 @@
-import WorkspaceNav from "../../components/WorkspaceNav";
 import { HiOutlineDocumentPlus } from "react-icons/hi2";
-import UserInfoset from "../../components/UserInfoset";
-import ChatInputBox from "../../components/ChatInputBox";
+import UserInfoset from "../../components/workspace-main-components/UserInfoset";
+import ChatInputBox from "../../components/workspace-main-components/ChatInputBox";
 import Sidebar from "../../components/sidebar/Sidebar";
+import WorkspaceNav from "../../components/workspace-main-components/WorkspaceNav";
+import { useParams } from "react-router-dom";
+import { useGetWorkspaceRelatedToIDQuery } from "../../redux/services/userServices";
 
 
 const Workspace = () => {
+    const {workSpaceId} = useParams();
+    const {data} = useGetWorkspaceRelatedToIDQuery(workSpaceId);
+    
     return (
         <>
-            <WorkspaceNav title={'Artifitia Solutions'}/>
+            <WorkspaceNav title={data?.workSpace?.workSpace_Name}/>
             <div className="flex flex-row h-screen">
 
                 {/* Sidebar */}
-                <Sidebar/>
+                <Sidebar data={data?.workSpace} />
 
                 {/* Chat UI */}
                 <div className="bg-white p-3 w-3/4 h-full flex flex-col  space-y-6">

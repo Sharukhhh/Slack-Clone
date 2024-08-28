@@ -12,7 +12,7 @@ const WorkspaceNav = ({title}) => {
                     <FaArrowRight color="white"/>
                     <IoTimeOutline color="white"/>
                     <div className="border border-slate-100 rounded-xl px-2 py-2 flex items-center space-x-2 text-slate-100 sm:px-6">
-                        <span>Search {title?.split(' ')[0]} </span>
+                        <span>Search {title} </span>
                         <IoSearchOutline size={20}/>
                     </div>
                     <HiOutlineQuestionMarkCircle color="white"/>

@@ -5,7 +5,8 @@ export const useDetailsForm = () => {
     const [workSpaceDetails , setWorkSpaceDetails] = useState({
         workSpaceName: '',
         description: '',
-        channelName: ''
+        channelName: '',
+        users: []
     });
 
     const changeData = (e) => {
@@ -16,7 +17,32 @@ export const useDetailsForm = () => {
         }))
     };
 
+    const addSelectedUser = (userId , email) => {
+        if(!workSpaceDetails.users.some((user) => user.id === userId)) {
+            setWorkSpaceDetails(prev => ({
+                ...prev,
+                users: [...prev.users , {id: userId , email}]
+            }))
+        }
+    }
+
+    const removeSelectedUser = (userId) => {
+        setWorkSpaceDetails(prev => ({
+            ...prev,
+            users: prev.users.filter((user) => user.id !== userId)
+        }));
+    }
+
+    const resetData = () => {
+        setWorkSpaceDetails({
+            workSpaceName: '',
+            channelName: '',
+            description: '',
+            users: []
+        })
+    }
+
     return {
-        workSpaceDetails , changeData
+        workSpaceDetails , changeData, addSelectedUser, removeSelectedUser , resetData
     }
 }

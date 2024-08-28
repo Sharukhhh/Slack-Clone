@@ -3,13 +3,14 @@ import {Link, useNavigate, useParams} from 'react-router-dom'
 import { useAuthForm } from "../../hooks/authForm";
 import {GoogleOAuthProvider } from '@react-oauth/google'
 import { useRegisterUserMutation, useSiginUserMutation } from "../../redux/services/userAuthService";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserCred } from "../../redux/slices/authSlice";
 import GoogleButton from "../../components/oauth-components/GoogleButton";
 import GithubButton from "../../components/oauth-components/GithubButton";
 import { errorAlert, successAlert } from "../../utils/alerts";
 import { authFormValidation } from "../../utils/formValidation";
 import FormWrapper from "../../components/wrappers/FormWrapper";
+import { useEffect } from "react";
 
 const Auth = ({isSignin}) => {
 
@@ -18,6 +19,7 @@ const Auth = ({isSignin}) => {
     const {endUserData ,changeData} = useAuthForm();
     const [registerUser , {isLoading }] = useRegisterUserMutation();
     const [signinUser , {isLoading: isSignInLoading}] = useSiginUserMutation()
+    const user  = useSelector((state) =>  state.slack_auth.userCreds);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

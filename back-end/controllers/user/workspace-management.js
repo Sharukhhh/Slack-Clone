@@ -9,14 +9,17 @@ import Channel from '../../models/channel.js'
 */
 export const createWorkSpaceandDefaultChannel = async (req, res, next) => {
     try {
-        const {workSpaceName , channelName , description} = req.body;
+        console.log(req.body);
+        
+        const {workSpaceName , channelName , description , users} = req.body;
         const loggedUser = req.user;
 
         if(!workSpaceName || !channelName || !description) return res.status(400).json({error: 'Invalid Entries'});
 
         const workSpace = new Workspace({
             workSpace_Name: workSpaceName,
-            creator: loggedUser._id
+            creator: loggedUser._id,
+            members: users
         });
 
         await workSpace.save();
@@ -100,18 +103,38 @@ export const addUsersToWorkspace = async (req, res, next) => {
 
 /*
     info: To fetch workspaces related to the user
-    route: /api/workspace/fetch
+    route: /api/workspace/fetch/all
     method: GET
 */
 export const fetchUsersWorkSpaces = async (req, res, next) => {
     try {
         const loggedUser = req.user;
 
-        const workSpaces = await Workspace.find({creator: loggedUser?._id});
+        const workSpaces = await Workspace.find({creator: loggedUser?._id}).sort({createdAt: -1});
         if(!workSpaces) return res.status(404).json({error: 'Workspaces not found'});
 
         return res.status(200).json({message: 'success' , workSpaces});
 
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+
+/*
+    info: To fetch workspaces related to the user
+    route: /api/workspace/
+    method: GET
+*/
+export const getSpecificWorkspaceUsingID = async (req, res, next) => {
+    try {
+        const workSpaceId = req.params.id;
+
+        const workSpace = await Workspace.findById(workSpaceId).populate('channels').populate('members');
+        if(!workSpace) return res.status(404).json({error: 'Workspace Not found'});
+
+        return res.status(200).json({message: 'success' , workSpace});
     } catch (error) {
         next(error);
     }
