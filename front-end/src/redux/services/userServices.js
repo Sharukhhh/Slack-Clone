@@ -14,7 +14,7 @@ export const userServicesApi = createApi({
 
     reducerPath: 'slack_userServices',
     baseQuery,
-    tagTypes: ['workspaces' , 'user'],
+    tagTypes: ['workspaces' , 'user' , 'messages'],
 
     endpoints: (builder) => ({
         createWorkspace: builder.mutation({
@@ -31,15 +31,29 @@ export const userServicesApi = createApi({
                 url: '/workspace/fetch/all',
                 method: 'GET',
             }),
-            providesTags: ['workspaces']
+            providesTags: ['workspaces' , 'user']
         }),
 
         getWorkspaceRelatedToID: builder.query({
             query: (workSpaceId) => ({
                 url: `/workspace/fetch/${workSpaceId}`,
                 method: 'GET'
-            })
+            }),
+            providesTags: ['user' , 'workspaces' ]
         }),
+
+// *************************************************************************************//
+
+        addChannel: builder.mutation({
+            query: (body) => ({
+                url: '/workspace/new_channel',
+                method: 'PUT',
+                body
+            }),
+            invalidatesTags: ['workspaces']
+        }),
+
+// *************************************************************************************//
 
         getAllUsers: builder.query({
             query: () => ({
@@ -64,13 +78,34 @@ export const userServicesApi = createApi({
                 body
             }),
             invalidatesTags: ['user']
+        }),
+
+// *************************************************************************************//
+
+        sendMessage: builder.mutation({
+            query: (body) => ({
+                url: '/message/send',
+                method: 'POST',
+                body
+            }),
+            invalidatesTags: ['messages']
+        }),
+
+        getMessagesForChannel: builder.query({
+            query: (channedlId) => ({
+                url: `/message/get/${channedlId}`,
+                method: 'GET',
+            }),
+            providesTags: ['messages']
         })
 
     })
 });
 
 
-export const {useCreateWorkspaceMutation ,  useFetchAllWorkSpaceQuery, useGetWorkspaceRelatedToIDQuery ,
-    useGetAllUsersQuery, useGetSingleUserQuery, useUpdateUserMutation
+export const {useCreateWorkspaceMutation ,  useFetchAllWorkSpaceQuery, useGetWorkspaceRelatedToIDQuery, 
+    useAddChannelMutation,
+    useGetAllUsersQuery, useGetSingleUserQuery, useUpdateUserMutation,
+    useSendMessageMutation, useGetMessagesForChannelQuery
 
 } = userServicesApi;

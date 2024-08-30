@@ -19,6 +19,7 @@
     "react-router-dom": "^6.26.1",
     "react-shimmer-effects": "^1.0.3",
     "redux-persist": "^6.0.0",
+    "socket.io-client": "^4.7.5",
     "sweetalert2": "^11.12.4"
   },
   "devDependencies": {

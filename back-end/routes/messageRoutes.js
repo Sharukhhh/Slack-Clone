@@ -3,9 +3,9 @@ import { fetchMessagesofTheChannel, pushMessageToChannel, searchOnMessages } fro
 import { verifyUser } from '../middlewares/authMiddleware.js';
 const router = express.Router();
 
-router.post('/' , verifyUser , pushMessageToChannel);
+router.post('/send' , verifyUser , pushMessageToChannel);
 
-router.get('/get/:id' , fetchMessagesofTheChannel);
+router.get('/get/:channelId' , fetchMessagesofTheChannel);
 
 router.get('/search/:id' , searchOnMessages);
 

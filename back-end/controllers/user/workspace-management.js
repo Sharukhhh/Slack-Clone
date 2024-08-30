@@ -9,7 +9,6 @@ import Channel from '../../models/channel.js'
 */
 export const createWorkSpaceandDefaultChannel = async (req, res, next) => {
     try {
-        console.log(req.body);
         
         const {workSpaceName , channelName , description , users} = req.body;
         const loggedUser = req.user;
@@ -59,8 +58,15 @@ export const addNewChannelToWorkSpace = async (req, res, next) => {
         const {channelName , workSpaceId} = req.body;
 
         const workSpace = await Workspace.findById(workSpaceId);
-        
         if(!workSpace) return res.status(404).json({error: 'Workspace not found'});
+
+        const isChannelWithSameName = await Channel.findOne({
+            channel_Title: new RegExp(`^${channelName}$` , 'i'),
+            workSpace: workSpaceId
+        });
+        if(isChannelWithSameName) return res.status(400)
+            .json({error: `A channel with same name already exists for Workspace: ${workSpace.workSpace_Name}`})
+
 
         const channel = new Channel({
             channel_Title: channelName,
@@ -71,7 +77,7 @@ export const addNewChannelToWorkSpace = async (req, res, next) => {
         workSpace.channels.push(channel._id);
         await workSpace.save();
 
-        return res.status(201).json({message: 'New Channel Added' , channel});
+        return res.status(201).json({message: `${channel.channel_Title} Added as a Channel` });
 
     } catch (error) {
         next(error);

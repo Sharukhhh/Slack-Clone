@@ -5,7 +5,7 @@ const route = express.Router();
 
 route.post('/new_workspace' , verifyUser, createWorkSpaceandDefaultChannel);
 
-route.post('/new_channel' , verifyUser , addNewChannelToWorkSpace);
+route.put('/new_channel' , verifyUser , addNewChannelToWorkSpace);
 
 route.get('/fetch/all' , verifyUser , fetchUsersWorkSpaces);
 

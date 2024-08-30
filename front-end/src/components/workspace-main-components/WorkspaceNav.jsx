@@ -6,7 +6,7 @@ import { IoSearchOutline , IoTimeOutline } from "react-icons/io5";
 const WorkspaceNav = ({title}) => {
     return (
         <>
-            <nav className="bg-purple-900 p-2 flex flex-row items-center justify-between">
+            <nav className="bg-purple-900 p-2 w-full flex flex-row items-center justify-between">
                 <div className="flex items-center justify-center space-x-6 md:mx-auto">
                     <FaArrowLeft color="white"/>
                     <FaArrowRight color="white"/>

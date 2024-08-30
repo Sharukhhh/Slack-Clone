@@ -5,8 +5,28 @@ import { MdOutlineAlternateEmail } from "react-icons/md";
 import { AiOutlineAudio , AiOutlineItalic, AiOutlineStrikethrough } from "react-icons/ai";
 import { FiBold } from "react-icons/fi";
 import { LuLink } from "react-icons/lu";
+import { useState } from "react";
+import { useSendMessageMutation } from "../../redux/services/userServices";
+import { errorAlert, successAlert } from "../../utils/alerts";
 
-const ChatInputBox = () => {
+const ChatInputBox = ({channelId}) => {
+    const [inputMsg , setInputMsg] = useState('');
+    const [sendMessage] = useSendMessageMutation()
+
+    const handleMessageSubmission = async (e) => {
+        e.preventDefault();
+
+        try {
+            if(inputMsg.trim() === '' || inputMsg.length === 0) return errorAlert('Invalid Input');
+            
+            const response = await sendMessage({message:inputMsg, channelId}).unwrap();
+            successAlert(response?.message);
+            setInputMsg('');
+        } catch (error) {
+             errorAlert(error?.data?.error || error?.error);
+        }
+
+    }
     return (
         <>
             <div className="space-y-2 border border-gray-200 shadow-lg shadow-gray-300 rounded-xl p-3">
@@ -20,22 +40,25 @@ const ChatInputBox = () => {
                     <IoCodeSlashOutline size={22}/>
                     <PiCodeBlock size={22}/>
                 </div>
-                <input type="text" name="" placeholder="message User" 
-                className="px-4 py-4 text-gray-300 w-full shadow-md"/>
+                <form onSubmit={handleMessageSubmission}>
+                    <input type="text" name="message" placeholder="Type your message here" 
+                    value={inputMsg} onChange={(e) => setInputMsg(e.target.value)}
+                    className="px-4 py-4 text-gray-900 w-full shadow-md"/>
 
-                <div className="flex justify-between flex-wrap items-center p-2 ">
-                    <div className="flex space-x-3 cursor-pointer truncate">
-                        <PiPlusSquareDuotone size={22} color="grey"/>
-                        <IoText size={22} color="grey"/>
-                        <BsEmojiSmile size={22} color="grey"/>
-                        <MdOutlineAlternateEmail size={22} color="grey"/>
-                        <PiVideoCamera size={22} color="grey"/>
-                        <AiOutlineAudio size={22} color="grey"/>
+                    <div className="flex justify-between flex-wrap items-center p-2 ">
+                        <div className="flex space-x-3 cursor-pointer truncate">
+                            <PiPlusSquareDuotone size={22} color="grey"/>
+                            <IoText size={22} color="grey"/>
+                            <BsEmojiSmile size={22} color="grey"/>
+                            <MdOutlineAlternateEmail size={22} color="grey"/>
+                            <PiVideoCamera size={22} color="grey"/>
+                            <AiOutlineAudio size={22} color="grey"/>
+                        </div>
+                        <button type="submit" className="cursor-pointer">
+                            <IoSend size={22} color={inputMsg.length === 0 ? 'grey' : 'green'}/>
+                        </button>
                     </div>
-                    <button type="submit" className="cursor-pointer">
-                        <IoSend size={22} color="grey"/>
-                    </button>
-                </div>
+                </form>
             </div>
         </>
     )

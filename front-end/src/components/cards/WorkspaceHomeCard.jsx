@@ -19,7 +19,7 @@ const WorkspaceHomeCard = ({data}) => {
                             You created
                         </span>
                     ) : (
-                        <span>You are added</span>
+                        <span>You were added</span>
                     )}
                 </div>
                 

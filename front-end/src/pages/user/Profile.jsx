@@ -7,7 +7,7 @@ import { useGetSingleUserQuery, useUpdateUserMutation } from "../../redux/servic
 import { useAuthForm } from "../../hooks/authForm";
 import { useEffect } from "react";
 import { updateStateUserName } from "../../redux/slices/authSlice";
-import { successAlert } from "../../utils/alerts";
+import { errorAlert, successAlert } from "../../utils/alerts";
 
 const Profile = () => {
     const user = useSelector((state) => state.slack_auth.userCreds);
@@ -28,6 +28,9 @@ const Profile = () => {
     const handleUpdate = async(e) => {
         e.preventDefault();
         try {
+
+            if(endUserData.username.trim() === '' || !endUserData.status) return errorAlert('Invalid');
+
             const response = await updateUser(endUserData).unwrap();
             dispatch(updateStateUserName(response?.name));
             successAlert(response?.message);
@@ -48,7 +51,7 @@ const Profile = () => {
                 </div>
 
                 <div className="flex justify-center mb-6">
-                    <div className="w-24 h-24 bg-gray-300 rounded-full"></div>
+                    <img src={data?.user?.profileImage} alt="Profile" className="w-24 h-24 bg-gray-300 rounded-full"/>
                 </div>
 
                 {/* Input Fields */}
@@ -73,6 +76,7 @@ const Profile = () => {
                         name={'email'}
                         value={data?.user?.email}
                         disabled
+                        title={'Email Update not possible'}
                     />
                     <button className="w-fit px-4 py-2 text-white bg-violet-700 rounded-md hover:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-500">
                         Update 

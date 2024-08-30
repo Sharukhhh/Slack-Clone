@@ -10,7 +10,7 @@ import { useState } from "react";
 const Home = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.slack_auth.userCreds);
-    const {data , isLoading } = useFetchAllWorkSpaceQuery();
+    const {data } = useFetchAllWorkSpaceQuery();
     const {isToggled , updateToggleState} = useToggleDisplay();
     const [defaultCount , setDefaultCount] = useState(4);
 

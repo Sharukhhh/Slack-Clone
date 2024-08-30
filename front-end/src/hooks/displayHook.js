@@ -10,3 +10,13 @@ export const useToggleDisplay = () => {
         isToggled , updateToggleState
     }
 }
+
+export const useToggleModal = () => {
+    const [openModal , setIsOpenModal] = useState(false);
+
+    const triggerModal = () => setIsOpenModal(!openModal);
+
+    return {
+        openModal , triggerModal
+    }
+}

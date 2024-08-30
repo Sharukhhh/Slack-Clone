@@ -24,7 +24,7 @@ const userSchema = new Schema({
 
     profileImage: {
         type: String,
-        default: 'https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png'
+        default: 'https://freesvg.org/img/abstract-user-flat-4.png'
     },
 
     about: {

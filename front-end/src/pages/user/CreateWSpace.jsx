@@ -2,11 +2,11 @@ import Input from "../../components/fields/Input";
 import FormWrapper from "../../components/wrappers/FormWrapper";
 import { useDetailsForm } from "../../hooks/workspaceForm";
 import { IoReturnUpBack } from "react-icons/io5";
-import {Link, useParams} from 'react-router-dom'
-import { useCreateWorkspaceMutation, useGetWorkspaceRelatedToIDQuery } from "../../redux/services/userServices";
+import {Link} from 'react-router-dom'
+import { useCreateWorkspaceMutation } from "../../redux/services/userServices";
 import { errorAlert, infoAlert, successAlert } from "../../utils/alerts";
 import SelectedDisplayCard from "../../components/cards/SelectedDisplayCard";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const CreateWspace = () => {
 

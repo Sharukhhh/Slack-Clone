@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { useToggleDisplay } from "../../hooks/displayHook";
-import { IoIosArrowDown , IoIosArrowUp } from "react-icons/io";
 import React from "react";
 import ListTitle from "./ListTitle";
 

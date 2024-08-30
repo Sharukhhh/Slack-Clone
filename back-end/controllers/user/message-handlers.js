@@ -10,7 +10,8 @@ import Message from '../../models/messages.js';
 export const pushMessageToChannel = async (req, res, next) => {
     try {
         
-        const {message , channelId }  = req.body;
+        const {message  , channelId }  = req.body;
+        
         const loggedUser = req.user;
 
         if(!message || !channelId) return res.status(400).json({error: 'Invalid credentials'});
@@ -45,12 +46,17 @@ export const pushMessageToChannel = async (req, res, next) => {
 export const fetchMessagesofTheChannel = async (req, res, next) => {
     try {
         
-        const channelId = req.params.id;
+        const channelId = req.params.channelId;
 
-        const messagesOfChannel = await Message.findOne({channel: channelId});
+        const messagesOfChannel = await Message.findOne({channel: channelId})
+        .populate('message.sender')
+        .populate('message.reciever');
         if(!messagesOfChannel) return res.status(404).json({error: 'No Data found'});
 
-        return res.status(200).json({messagesOfChannel})
+        console.log(messagesOfChannel.message);
+        
+
+        return res.status(200).json({messages: messagesOfChannel})
 
     } catch (error) {
         next(error);
