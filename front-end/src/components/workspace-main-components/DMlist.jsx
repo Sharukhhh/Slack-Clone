@@ -1,11 +1,14 @@
 import { useSelector } from "react-redux";
-import { useToggleDisplay } from "../../hooks/displayHook";
+import { useToggleDisplay ,useToggleModal } from "../../hooks/displayHook";
 import React from "react";
 import ListTitle from "./ListTitle";
+import { FaSquarePlus } from "react-icons/fa6";
+import AddModal from '../modals/AddModal'
 
-const DMlist = ({members}) => {
+const DMlist = ({workspace , onSelectUser}) => {
     const currUser = useSelector((state) => state.slack_auth.userCreds);
     const {isToggled , updateToggleState} = useToggleDisplay()
+    const {openModal , triggerModal} = useToggleModal()
 
     return (
         <>
@@ -13,9 +16,10 @@ const DMlist = ({members}) => {
                 <ListTitle title={'Direct Messages'} onClick={updateToggleState} isToggled={isToggled}/>
                 {isToggled && (
                     <React.Fragment>
-                    {members?.length > 0 && (
-                        members?.map((user) => (
-                            <div key={user?._id} className={`flex space-x-2 p-2 items-center my-2 cursor-pointer ${currUser?.id !== user?._id ? 'hover:bg-violet-100 hover:bg-opacity-30' : ''}`}>
+                    {workspace?.members?.length > 0 && (
+                        workspace?.members?.map((user) => (
+                            <div key={user?._id} onClick={currUser?.id !== user?._id ? () => onSelectUser(user?._id): undefined}
+                            className={`flex space-x-2 p-2 items-center my-2 cursor-pointer ${currUser?.id !== user?._id ? 'hover:bg-violet-100 hover:bg-opacity-30' : ''}`}>
                                 {user?.profileImage ? (
                                     <img src={user?.profileImage} 
                                     alt="profile" className="w-10 h-10" />
@@ -31,7 +35,22 @@ const DMlist = ({members}) => {
                     )}
                     </React.Fragment>
                 )}
+
+                {currUser?.id === workspace?.creator && (
+                    <div onClick={triggerModal} className="flex space-x-2 items-center my-4 p-2 hover:bg-violet-100 hover:bg-opacity-30">
+                        <FaSquarePlus/>
+                        <span >Add Users</span>
+                    </div>
+                )}
             </div>
+
+            {openModal && (
+                <AddModal
+                    forChannel={false}
+                    workSpace={workspace}
+                    onClose={triggerModal}
+                />
+            )}
         </>
     )
 };

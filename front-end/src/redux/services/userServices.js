@@ -80,6 +80,15 @@ export const userServicesApi = createApi({
             invalidatesTags: ['user']
         }),
 
+        usersNotInWorkSpace: builder.query({
+            query: (body) => ({
+                url: '/user/fetch/not_member',
+                method: 'GET',
+                body
+            }),
+            providesTags: ['user' , 'workspaces']
+        }),
+
 // *************************************************************************************//
 
         sendMessage: builder.mutation({
@@ -105,7 +114,7 @@ export const userServicesApi = createApi({
 
 export const {useCreateWorkspaceMutation ,  useFetchAllWorkSpaceQuery, useGetWorkspaceRelatedToIDQuery, 
     useAddChannelMutation,
-    useGetAllUsersQuery, useGetSingleUserQuery, useUpdateUserMutation,
+    useGetAllUsersQuery, useGetSingleUserQuery, useUsersNotInWorkSpaceQuery, useUpdateUserMutation,
     useSendMessageMutation, useGetMessagesForChannelQuery
 
 } = userServicesApi;

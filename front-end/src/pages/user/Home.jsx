@@ -6,6 +6,7 @@ import { useFetchAllWorkSpaceQuery } from "../../redux/services/userServices";
 import { useToggleDisplay } from "../../hooks/displayHook";
 import { MdOutlineKeyboardDoubleArrowDown  , MdOutlineKeyboardDoubleArrowUp} from "react-icons/md";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -25,6 +26,9 @@ const Home = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Welcome to Slack</title>
+            </Helmet>
             <div className="flex flex-col items-center justify-center p-3 my-8">
 
                 {/* Workspce creation and profile */}

@@ -8,6 +8,8 @@ import { useAuthForm } from "../../hooks/authForm";
 import { useEffect } from "react";
 import { updateStateUserName } from "../../redux/slices/authSlice";
 import { errorAlert, successAlert } from "../../utils/alerts";
+import { Helmet } from "react-helmet-async";
+import Button from "../../components/buttons/Button";
 
 const Profile = () => {
     const user = useSelector((state) => state.slack_auth.userCreds);
@@ -41,7 +43,10 @@ const Profile = () => {
     }
 
     return(
-        <>
+        <>  
+            <Helmet>
+                <title>{user?.name} 's Profile</title>
+            </Helmet>
             <FormWrapper>
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-2xl font-semibold truncate">{user?.name} 's Profile</h2>
@@ -78,9 +83,7 @@ const Profile = () => {
                         disabled
                         title={'Email Update not possible'}
                     />
-                    <button className="w-fit px-4 py-2 text-white bg-violet-700 rounded-md hover:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-500">
-                        Update 
-                    </button>
+                    <Button btnText={'Update'} type={'submit'} />
                 </form>
             </FormWrapper>
         </>

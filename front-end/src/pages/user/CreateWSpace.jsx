@@ -3,15 +3,18 @@ import FormWrapper from "../../components/wrappers/FormWrapper";
 import { useDetailsForm } from "../../hooks/workspaceForm";
 import { IoReturnUpBack } from "react-icons/io5";
 import {Link} from 'react-router-dom'
-import { useCreateWorkspaceMutation } from "../../redux/services/userServices";
+import { useCreateWorkspaceMutation, useGetAllUsersQuery } from "../../redux/services/userServices";
 import { errorAlert, infoAlert, successAlert } from "../../utils/alerts";
 import SelectedDisplayCard from "../../components/cards/SelectedDisplayCard";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
+import Button from "../../components/buttons/Button";
 
 const CreateWspace = () => {
 
     const {workSpaceDetails , changeData , addSelectedUser , removeSelectedUser , resetData} = useDetailsForm();
     const [createWorkspace , {isLoading}] = useCreateWorkspaceMutation()
+    const {data} = useGetAllUsersQuery()
     const [selectedUser , setSelectedUser] = useState('');
 
     const handleAddingUser = () => {
@@ -44,7 +47,10 @@ const CreateWspace = () => {
     }
     
     return (
-        <>
+        <>  
+            <Helmet>
+                <title>Create Your Workspace - Slack</title>
+            </Helmet>
             <FormWrapper>
 
                 <div className="flex justify-between">
@@ -80,6 +86,7 @@ const CreateWspace = () => {
                             <Input
                                 isSelect={true}
                                 isSelectAndUser={true}
+                                selectData={data}
                                 selectTitle={'Select User'}
                                 label={'Select users to add to your workspace'}
                                 placeholder={'Select Users'}
@@ -88,13 +95,10 @@ const CreateWspace = () => {
                                 onChange={(e) => setSelectedUser(e.target.value)}
                             />
                         </div>
-                        <button type="button" onClick={handleAddingUser}
-                        className="px-4 py-2 text-white bg-purple-900 rounded hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-                        >
-                            Add
-                        </button>
+                        <Button btnText={'Add'} type={'button'} onClick={handleAddingUser}  />
                     </div>
                     <SelectedDisplayCard users={workSpaceDetails.users} removeUser={removeSelectedUser} />
+
                     <Input
                         label={'Add a default Channel for Workspace'}
                         placeholder={'Channel Name here'}

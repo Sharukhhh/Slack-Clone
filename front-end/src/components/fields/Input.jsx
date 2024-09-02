@@ -1,8 +1,7 @@
 import React from "react";
-import { useGetAllUsersQuery } from "../../redux/services/userServices";
 
-const Input = ({label , isSelect, selectTitle, isSelectAndUser, ...props}) => {
-    const {data} = useGetAllUsersQuery();
+const Input = ({label , isSelect, selectTitle, isSelectAndUser, selectData, ...props}) => {
+
     return (
         <div>  
             <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor={'label'}>{label}</label>
@@ -21,7 +20,7 @@ const Input = ({label , isSelect, selectTitle, isSelectAndUser, ...props}) => {
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
-                        {data?.users?.map((user) => (
+                        {selectData?.users?.map((user) => (
                             <option key={user?._id} value={JSON.stringify({id: user?._id , email: user?.email})}>
                                 {user?.email}
                             </option>

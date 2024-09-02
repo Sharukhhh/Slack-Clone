@@ -2,7 +2,7 @@ import MenuSqaures from "../workspace-main-components/MenuSqaures";
 import Channellist from "../workspace-main-components/Channellist";
 import DMlist from "../workspace-main-components/DMlist";
 
-const Sidebar = ({data , onSelectChannel}) => {
+const Sidebar = ({data , onSelectChannel , onSelectUser}) => {
     return (
         <>
             <div className="bg-purple-950 w-1/4 h-full flex">
@@ -32,7 +32,7 @@ const Sidebar = ({data , onSelectChannel}) => {
 
                     <div className="overflow-y-auto">
                         <Channellist onSelectChannel={onSelectChannel} workspace={data} />
-                        <DMlist members={data?.members} />
+                        <DMlist onSelectUser={onSelectUser} workspace={data} />
                     </div>
                 </div>
             </div>

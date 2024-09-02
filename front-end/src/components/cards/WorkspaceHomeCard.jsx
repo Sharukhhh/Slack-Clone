@@ -15,11 +15,11 @@ const WorkspaceHomeCard = ({data}) => {
                 <div className="flex flex-col">
                     <span className="text-lg font-medium truncate">{data?.workSpace_Name}</span>
                     {currentUser?.id === data.creator?._id ? (
-                        <span>
+                        <span className="truncate">
                             You created
                         </span>
                     ) : (
-                        <span>You were added</span>
+                        <span className="truncate">You where added by {data?.creator?.username}</span>
                     )}
                 </div>
                 

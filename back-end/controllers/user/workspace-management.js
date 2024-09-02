@@ -67,7 +67,6 @@ export const addNewChannelToWorkSpace = async (req, res, next) => {
         if(isChannelWithSameName) return res.status(400)
             .json({error: `A channel with same name already exists for Workspace: ${workSpace.workSpace_Name}`})
 
-
         const channel = new Channel({
             channel_Title: channelName,
             workSpace: workSpaceId

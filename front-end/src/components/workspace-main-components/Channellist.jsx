@@ -1,9 +1,12 @@
 import { FaSquarePlus } from "react-icons/fa6";
 import { useToggleDisplay, useToggleModal } from "../../hooks/displayHook";
 import ListTitle from "./ListTitle";
-import AddChannelModal from "../modals/AddchannelModal";
+import AddChannelModal from "../modals/AddModal";
+import { useSelector } from "react-redux";
 
 const Channellist = ({workspace , onSelectChannel}) => {
+
+    const currUser = useSelector((state) => state.slack_auth.userCreds);
     const {isToggled , updateToggleState} = useToggleDisplay();
     const {openModal , triggerModal} = useToggleModal();
 
@@ -21,15 +24,22 @@ const Channellist = ({workspace , onSelectChannel}) => {
                             ))
                         )}
                     </ul>
-                )}    
-                <div onClick={triggerModal} className="flex space-x-2 items-center my-4 p-2 hover:bg-violet-100 hover:bg-opacity-30">
-                    <FaSquarePlus/>
-                    <span >Add Channel</span>
-                </div>
+                )}
+
+                {currUser?.id === workspace?.creator && (
+                    <div onClick={triggerModal} className="flex space-x-2 items-center my-4 p-2 hover:bg-violet-100 hover:bg-opacity-30">
+                        <FaSquarePlus/>
+                        <span >Add Channel</span>
+                    </div>
+                )}
             </div>
 
             {openModal && (
-                <AddChannelModal workSpace={workspace} onClose={triggerModal} />
+                <AddChannelModal 
+                    forChannel={true}
+                    workSpace={workspace} 
+                    onClose={triggerModal} 
+                />
             )}
         </>
     )

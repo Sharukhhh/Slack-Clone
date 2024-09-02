@@ -53,9 +53,6 @@ export const fetchMessagesofTheChannel = async (req, res, next) => {
         .populate('message.reciever');
         if(!messagesOfChannel) return res.status(404).json({error: 'No Data found'});
 
-        console.log(messagesOfChannel.message);
-        
-
         return res.status(200).json({messages: messagesOfChannel})
 
     } catch (error) {
