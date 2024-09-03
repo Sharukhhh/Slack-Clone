@@ -24,3 +24,13 @@ export const formatDate = (dateInfo) => {
 
     return date.toLocaleDateString(undefined , options);
 }
+
+
+export const isValidURL = (string) => {
+    try {
+        new URL(string);
+        return true
+    } catch (e) {
+        return false;
+    }
+}

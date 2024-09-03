@@ -7,15 +7,25 @@ export const useAuthForm = () => {
         username: '',
         email: '',
         password: '',
-        status: ''
+        status: '',
+        image: null
     });
 
     const changeData = (e) => {
-        const {name , value} = e.target;
-        setEndUserData(prev => ({
-            ...prev,
-            [name]: value
-        }))
+        const {name , value , files} = e.target;
+
+        if(files) {
+            setEndUserData(prev => ({
+                ...prev,
+                image: files[0]
+            }))
+
+        } else {
+            setEndUserData(prev => ({
+                ...prev,
+                [name]: value
+            }))
+        }    
     };
 
     const setInitialData = (initialData) => {

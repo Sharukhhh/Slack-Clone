@@ -1,5 +1,5 @@
 import Input from "../../components/fields/Input";
-import {Link, useNavigate, useParams} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import { useAuthForm } from "../../hooks/authForm";
 import {GoogleOAuthProvider } from '@react-oauth/google'
 import { useRegisterUserMutation, useSiginUserMutation } from "../../redux/services/userAuthService";
@@ -11,6 +11,8 @@ import { errorAlert, successAlert } from "../../utils/alerts";
 import { authFormValidation } from "../../utils/formValidation";
 import FormWrapper from "../../components/wrappers/FormWrapper";
 import { useEffect } from "react";
+import {Helmet}  from 'react-helmet-async'
+
 
 const Auth = ({isSignin}) => {
 
@@ -20,6 +22,10 @@ const Auth = ({isSignin}) => {
     const [registerUser , {isLoading }] = useRegisterUserMutation();
     const [signinUser , {isLoading: isSignInLoading}] = useSiginUserMutation()
     const user  = useSelector((state) =>  state.slack_auth.userCreds);
+    
+    useEffect(() => {
+        if(user) navigate('/home');
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -36,6 +42,7 @@ const Auth = ({isSignin}) => {
                 dispatch(setUserCred(response.userData));
                 successAlert(response.message);
                 localStorage.setItem('slackUserToken' , response.token);
+                localStorage.setItem('slackUser_RefreshToken' , response.refreshToken);
                 navigate('/home');
             } else {
                 
@@ -54,6 +61,9 @@ const Auth = ({isSignin}) => {
 
     return (
         <>  
+            <Helmet>
+                <title>{isSignin ? 'Login to Slack' : 'Create Your Account - Slack'}</title>
+            </Helmet>
             <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
                 <FormWrapper>
                     <div>
@@ -113,7 +123,7 @@ const Auth = ({isSignin}) => {
                             </>
                         )}
                                 
-                            <button type="submit"
+                            <button type="submit" disabled={isLoading || isSignInLoading ? true : false}
                             className="w-full py-2 px-4 text-white bg-purple-900 rounded hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
                             >
                                 {isSignin ? 'LOGIN' : 'SIGNUP'}

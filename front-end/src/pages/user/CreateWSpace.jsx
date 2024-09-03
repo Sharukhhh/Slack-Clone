@@ -95,7 +95,7 @@ const CreateWspace = () => {
                                 onChange={(e) => setSelectedUser(e.target.value)}
                             />
                         </div>
-                        <Button btnText={'Add'} type={'button'} onClick={handleAddingUser}  />
+                        <Button  btnText={'Add'} type={'button'} onClick={handleAddingUser}  />
                     </div>
                     <SelectedDisplayCard users={workSpaceDetails.users} removeUser={removeSelectedUser} />
 
@@ -108,7 +108,8 @@ const CreateWspace = () => {
                         maxLength={30}
                     />
 
-                    <button type="submit" className="w-fit py-2 px-4 text-white bg-purple-900 rounded hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                    <button disabled={isLoading ? true : false}
+                    type="submit" className="w-fit py-2 px-4 text-white bg-purple-900 rounded hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
                         Create
                     </button>
                 </form>

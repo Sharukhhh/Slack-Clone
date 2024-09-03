@@ -2,6 +2,8 @@ import express from "express";
 import morgan from 'morgan';
 import cors from 'cors';
 import http from 'http';
+import path from 'path';
+import {fileURLToPath} from 'url'
 import {Server} from 'socket.io'
 import {connectToDb} from "./database/connection.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -9,6 +11,9 @@ import workspaceRoutes from './routes/workSpaceRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import messageRoutes from './routes/messageRoutes.js'
 import { errorHanlder } from "./middlewares/errorHandler.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename)
 
 const app = express();
 const server = http.createServer(app);
@@ -22,6 +27,7 @@ app.use(cors());
 app.use(morgan('dev'));   
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use('/' , express.static(__dirname + '/public'));
 
 app.use('/api/user' , userRoutes);
 app.use('/api/workspace' , workspaceRoutes);

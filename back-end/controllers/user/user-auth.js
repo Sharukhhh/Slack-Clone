@@ -55,14 +55,15 @@ export const loginUser = async (req, res , next) => {
         const isValidPassword = await checkAndComparePassword(password , existingUser?.password);
         if(!isValidPassword) return res.status(400).json({error: 'Given Password does not match!'});
 
-        const token = await generateToken(existingUser._id);
+        const token = await generateToken(existingUser._id , 'access');
+        const refreshToken = await generateToken(existingUser._id , 'refresh')
 
         const userData = {
             name: existingUser.username,
             id: existingUser._id
         }
         
-        return res.status(200).json({message: 'login successfull', userData , token });
+        return res.status(200).json({message: 'login successfull', userData , token, refreshToken });
 
     } catch (error) {
         next(error)
@@ -124,10 +125,11 @@ export const googleLogin = async (req, res , next) => {
             name: existingUser?.username
         };
 
-        const token = await generateToken(existingUser?._id);
+        const token = await generateToken(existingUser?._id , 'access');
+        const refreshToken = await generateToken(existingUser?._id , 'refresh')
 
         return res.setHeader('Authorization' , `Bearer ${token}`)
-        .status(200).json({message: 'login successfull', userData , token });
+        .status(200).json({message: 'login successfull', userData , token, refreshToken });
         
     } catch (error) {
         next(error);

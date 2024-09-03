@@ -9,15 +9,18 @@ import Workspace from '../../models/workSpace.js';
 */
 export const editUserInfo = async (req, res, next) => {
     try {
-        
+
         const loggedUser = req.user;
         const {username ,  status } = req.body;
+        
+        const imageFile = req.file.filename;
 
         if(!username || !status) return res.status(400).json({error: 'Invalid Entries'});
 
         const user = await User.findByIdAndUpdate(loggedUser._id , {
             username,
-            status
+            status,
+            profileImage: imageFile
         } , {new: true});
 
         if(!user) return res.status(404).json({error: 'User not found'});
@@ -59,8 +62,7 @@ export const fetchAllUsers = async (req, res, next) => {
 */
 export const getUsersWhoAreNotInCurrentWorkspace = async (req, res, next) => {
     try {
-        const workSpaceId = req.body;
-        console.log(req.body , 'here');
+        const workSpaceId = req.body.workSpaceId;
 
         const workSpace = await Workspace.findById(workSpaceId).populate('members');
         if(!workSpace) return res.status(404).json({error: 'Workspace not found'});
@@ -68,9 +70,9 @@ export const getUsersWhoAreNotInCurrentWorkspace = async (req, res, next) => {
         const users = await User.find();
         if(!users) return res.status(404).json({error: 'No data found'});
 
-        const requiredUsers = users.filter((user) => user._id !== workSpace.members.map((member) => member._id));
+        const ids = workSpace.members.map((member) => member._id);
 
-        console.log(requiredUsers , 'required users');
+        const  requiredUsers = await User.find({_id : {$nin: ids}})
 
         return res.status(200).json({users: requiredUsers});
 

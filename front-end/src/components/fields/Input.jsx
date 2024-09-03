@@ -2,6 +2,8 @@ import React from "react";
 
 const Input = ({label , isSelect, selectTitle, isSelectAndUser, selectData, ...props}) => {
 
+    console.log(selectData?.users);
+
     return (
         <div>  
             <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor={'label'}>{label}</label>

@@ -9,7 +9,7 @@ export const verifyUser = async (req, res, next) => {
         const authHeader = req.headers['authorization'];
 
         const token = authHeader?.split(' ')[1];
-        if(!token) return res.status(401).json({error: 'Unauthorized'});
+        if(!token) return res.status(401).json({error: 'Unauthorized'});        
 
         const decoded = jwt.verify(token , process.env.SECRET);
         if(!decoded) return res.status(401).json({error: 'Unauthorized'});

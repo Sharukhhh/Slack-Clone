@@ -58,7 +58,7 @@ const Home = () => {
                             'Your Workspaces'
                         )}
                     </h3>
-                    {data?.workSpaces?.length !== 0 && (
+                    {data?.workSpaces?.length > 0 && (
                         <div className="w-full max-w-2xl border-2 border-gray-300 rounded-lg p-4 bg-white space-y-4">
                             <div className="space-y-7">
                                 {data?.workSpaces?.slice(0 , defaultCount)?.map((wspace) => (

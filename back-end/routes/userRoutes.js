@@ -3,6 +3,7 @@ import { createUser, githubSignup, googleLogin, googleOneTapSignUp, loginUser } 
 import { editUserInfo, fetchAllUsers, fetchSingleUser, getUsersWhoAreNotInCurrentWorkspace } from "../controllers/user/user-management.js";
 import { verifyUser } from "../middlewares/authMiddleware.js";
 import { githubAuth } from "../middlewares/githubAuthMid.js";
+import { upload } from "../utils/multer.js";
 const route = express.Router();
 
 route.post('/auth/create' , createUser);
@@ -15,7 +16,7 @@ route.post('/auth/google_login' , googleLogin);
 
 // route.post('/auth/github_auth' , githubAuth , githubSignup)
 
-route.put('/edit/' , verifyUser, editUserInfo);
+route.put('/edit/' , verifyUser, upload.single('image'), editUserInfo);
 
 route.get('/fetch/all' , verifyUser , fetchAllUsers);
 

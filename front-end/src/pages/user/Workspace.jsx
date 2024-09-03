@@ -10,7 +10,6 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import UserMessageSet from '../../components/workspace-main-components/UserMessageSet';
-import MessageSegments from '../../components/workspace-main-components/UserMessageSet';
 
 
 const Workspace = () => {
