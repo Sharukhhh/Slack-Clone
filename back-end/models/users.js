@@ -22,6 +22,11 @@ const userSchema = new Schema({
         type: String,
     },
 
+    isOnline: {
+        type: Boolean,
+        default: false
+    },
+
     profileImage: {
         type: String,
         default: 'https://freesvg.org/img/abstract-user-flat-4.png'

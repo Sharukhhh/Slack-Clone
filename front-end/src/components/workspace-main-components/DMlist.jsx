@@ -4,6 +4,7 @@ import React from "react";
 import ListTitle from "./ListTitle";
 import { FaSquarePlus } from "react-icons/fa6";
 import AddModal from '../modals/AddModal'
+import { isValidURL } from "../../utils/dateFormat";
 
 const DMlist = ({workspace , onSelectUser}) => {
     const currUser = useSelector((state) => state.slack_auth.userCreds);
@@ -21,7 +22,12 @@ const DMlist = ({workspace , onSelectUser}) => {
                             <div key={user?._id} onClick={currUser?.id !== user?._id ? () => onSelectUser(user?._id): undefined}
                             className={`flex space-x-2 p-2 items-center my-2 cursor-pointer ${currUser?.id !== user?._id ? 'hover:bg-violet-100 hover:bg-opacity-30' : ''}`}>
                                 {user?.profileImage ? (
-                                    <img src={user?.profileImage} 
+                                    <img src={
+                                        isValidURL(user?.profileImage) ? 
+                                            user?.profileImage
+                                        :
+                                        import.meta.env.VITE_COMMON_URL+user?.profileImage
+                                    } 
                                     alt="profile" className="w-10 h-10" />
                                 ) : (
                                     <img src="https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png" 

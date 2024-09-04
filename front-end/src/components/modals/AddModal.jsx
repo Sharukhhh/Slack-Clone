@@ -4,6 +4,7 @@ import Input from "../fields/Input";
 import { useAddChannelMutation, useUsersNotInWorkSpaceQuery } from "../../redux/services/userServices";
 import { errorAlert, successAlert } from "../../utils/alerts";
 import SelectedDisplayCard from "../cards/SelectedDisplayCard";
+import ModalWrapper from "../wrappers/ModalWrapper";
 
 const AddChannelModal = ({forChannel, workSpace ,onClose}) => {
 
@@ -26,7 +27,7 @@ const AddChannelModal = ({forChannel, workSpace ,onClose}) => {
 
     return (
         <>
-            <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+            <ModalWrapper>
                 <div className="bg-white rounded-lg shadow-lg p-6 max-w-xs w-full sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
                     <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">{forChannel ? 'Add Channel' : 'Add Members'}</h2>
 
@@ -75,7 +76,7 @@ const AddChannelModal = ({forChannel, workSpace ,onClose}) => {
                         </div>
                     </form>
                 </div>
-            </div>
+            </ModalWrapper>
         </>
     )
 };

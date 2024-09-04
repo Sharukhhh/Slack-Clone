@@ -1,4 +1,6 @@
+import Channel from '../../models/channel.js';
 import Message from '../../models/messages.js';
+import User from '../../models/users.js';
 
 
 
@@ -10,27 +12,38 @@ import Message from '../../models/messages.js';
 export const pushMessageToChannel = async (req, res, next) => {
     try {
         
-        const {message  , channelId }  = req.body;
-        
+        const {message  , id }  = req.body;
+
         const loggedUser = req.user;
+        let isChannel = true;
 
-        if(!message || !channelId) return res.status(400).json({error: 'Invalid credentials'});
+        if(!message || !id) return res.status(400).json({error: 'Invalid credentials'});
 
-        let channelForMessaging = await Message.findOne({channel: channelId});
+        let reciever = await Channel.findById(id);
+        
+        if(!reciever) {
+            isChannel = false;
+            reciever = await User.findById(id);
 
-        if(!channelForMessaging) { 
-            channelForMessaging = await Message.create({
-                channel: channelId
-            });
+            if(!reciever) return res.status(404).json({error: 'Not found'});
         }
 
-        channelForMessaging.message.push({
-            body: message,
-            sender: loggedUser._id,
-        });
+        if(isChannel) {
+            await Message.create({
+                messageBody: message,
+                recieverChannel: reciever._id,
+                sender: loggedUser?._id
+            })
 
-        await channelForMessaging.save();
-        return res.status(201).json({message: 'Created Successfully' });
+        } else {
+            await Message.create({
+                messageBody: message,
+                recieverUser: reciever._id,
+                sender: loggedUser?._id
+            })
+        }
+
+        return res.status(201).json({message: 'Message sent' });
         
     } catch (error) {
         next(error);
@@ -38,22 +51,40 @@ export const pushMessageToChannel = async (req, res, next) => {
 }
 
 
+
 /*
     info: To fetch messages affiliated to the channel
     path: /api/message/get/:id
     method: GET
 */
-export const fetchMessagesofTheChannel = async (req, res, next) => {
+export const fetchMessagesforReciever = async (req, res, next) => {
     try {
-        
-        const channelId = req.params.channelId;
+        const recieverId = req.params.recieverId;
+        const loggedUser = req.user;
 
-        const messagesOfChannel = await Message.findOne({channel: channelId})
-        .populate('message.sender')
-        .populate('message.reciever');
-        if(!messagesOfChannel) return res.status(404).json({error: 'No Data found'});
+        const isChannel = await Channel.findById(recieverId);
 
-        return res.status(200).json({messages: messagesOfChannel})
+        let messages ;
+
+        if(isChannel) {
+            messages = await Message.find({recieverChannel: recieverId})
+            .populate('recieverChannel')
+            .populate('sender');
+
+        } else {
+            
+            messages = await Message.find({
+                $or: [
+                    {sender: loggedUser?._id, recieverUser: recieverId},
+                    {sender: recieverId , recieverUser: loggedUser?._id}
+                ],
+                recieverChannel: {$exists: false}
+            })
+            .populate('recieverUser')
+            .populate('sender');
+        }
+
+        return res.status(200).json({messages})
 
     } catch (error) {
         next(error);

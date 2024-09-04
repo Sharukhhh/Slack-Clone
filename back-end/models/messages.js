@@ -3,33 +3,26 @@ import mongoose, { Schema } from "mongoose";
 
 const messages = new Schema({
 
-    channel: {
+    messageBody: {
+        type: String,
+        required: true
+    },
+
+    recieverChannel: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'channels'
     },
 
-    message: [
-        {
-            body: {
-                type: String
-            },
+    recieverUser: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users'
+    },
 
-            sender: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'users'
-            },
+    sender: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users'
+    },
 
-            reciever: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'users'
-            },
-
-            createdAt: {
-                type: Date,
-                default: Date.now()
-            },
-        }
-    ]
 
 } , {timestamps: true});
 

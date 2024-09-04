@@ -1,5 +1,6 @@
 import { IoIosArrowDown } from "react-icons/io";
 import { useSelector } from "react-redux";
+import { isValidURL } from "../../utils/dateFormat";
 
 const UserInfoset  = ({ users, isFirst , msg }) => {
 
@@ -12,14 +13,24 @@ const UserInfoset  = ({ users, isFirst , msg }) => {
                 
                 {isFirst ? (
                     <>
-                        <img src={user?.profileImage} 
+                        <img src={
+                            isValidURL(user?.profileImage) ? 
+                            user?.profileImage
+                        :
+                            import.meta.env.VITE_COMMON_URL+user?.profileImage
+                        } 
                         alt="Profile" className='w-10 h-10 rounded-lg' />
                         <span className="font-bold cursor-pointer">{user?.username}</span>
                         <IoIosArrowDown className="cursor-pointer" size={20}/>
                     </>
                 ): (
                     <>
-                        <img src={user?.profileImage} 
+                        <img src={
+                            isValidURL(user?.profileImage) ? 
+                            user?.profileImage
+                        :
+                            import.meta.env.VITE_COMMON_URL+user?.profileImage
+                        }  
                         alt="Profile" className='w-10 h-10 rounded-lg' />
                         <div className="flex flex-col space-y-1">
                             <span className="font-bold">{user?.username}</span>

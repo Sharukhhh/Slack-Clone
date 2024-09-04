@@ -1,5 +1,5 @@
 import React from "react";
-import { formatDate, formatTime } from "../../utils/dateFormat";
+import { formatDate, formatTime, isValidURL } from "../../utils/dateFormat";
 
 const UserMessageSet = ({senderData, body, time}) => {
 
@@ -7,7 +7,12 @@ const UserMessageSet = ({senderData, body, time}) => {
     return (
         <>
             <div className="py-3 px-2 flex space-x-2">
-                <img src={senderData?.profileImage} alt="" className="w-10 h-10 rounded-lg"/>
+                <img src={
+                    isValidURL(senderData?.profileImage) ? 
+                        senderData?.profileImage
+                    :
+                    import.meta.env.VITE_COMMON_URL+senderData?.profileImage    
+                } alt="" className="w-10 h-10 rounded-lg"/>
                 <div className="flex flex-col space-y-1">
                     <span className="font-bold">{senderData?.username}</span>
                     <span className="font-normal">{body}</span>

@@ -18,7 +18,7 @@ const Channellist = ({workspace , onSelectChannel}) => {
                     <ul className="space-y-2 cursor-pointer">
                         {workspace?.channels?.length > 0 && (
                             workspace?.channels?.map((channel) => (
-                                <li onClick={() => onSelectChannel(channel?._id)} className="p-1 hover:bg-violet-100 hover:bg-opacity-30" key={channel?._id}>
+                                <li onClick={() => onSelectChannel(channel?._id)} className="p-1 font-bold hover:bg-violet-100 hover:bg-opacity-30" key={channel?._id}>
                                     # {channel?.channel_Title}
                                 </li>
                             ))
